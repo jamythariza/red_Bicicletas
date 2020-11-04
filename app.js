@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -33,7 +34,11 @@ app.use(session({
 
 var mongoose = require('mongoose');
 const usuario = require('./models/usuario');
-var mongoDB = 'mongodb://localhost:27017/red_bicicletas';
+//ambiente dev
+//var mongoDB = 'mongodb://localhost:27017/red_bicicletas';
+// ambiente production
+//var mongoDB = 'mongodb+srv://admin:PhB6gpW9WSbGhRqy@red-bicicletas.gxdnp.mongodb.net/red-bicicletas?retryWrites=true&w=majority';
+var mongoDB = process.env.NODE_URI;
 mongoose.connect(mongoDB,{ useNewUrlParser:true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;

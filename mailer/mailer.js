@@ -1,18 +1,18 @@
 const nodemailer = require('nodemailer')
 
-const mailConfig = {
-    host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-        user: 'esperanza.hoeger@ethereal.email',
-        pass: 'KFyfSaFDkVGH5SQM6k'
-    }
-};
+// const mailConfig = {
+//     host: 'smtp.ethereal.email',
+//     port: 587,
+//     auth: {
+//         user: 'esperanza.hoeger@ethereal.email',
+//         pass: 'KFyfSaFDkVGH5SQM6k'
+//     }
+// };
 
-module.exports = nodemailer.createTransport(mailConfig);
+// module.exports = nodemailer.createTransport(mailConfig);
 
 
-/*const sgTransport = require('nodemailer-sendgrid-transport')
+const sgTransport = require('nodemailer-sendgrid-transport')
 
 let mailConfig;
 
