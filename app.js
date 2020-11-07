@@ -144,6 +144,10 @@ app.use('/usuarios', usuariosRouter);
 app.use('/token', tokenRouter);
 app.use('/', loggedIn, indexRouter);
 
+app.use('/privacy_policy.html', function(req, res){
+  res.sendFile('public/privacy_policy.html');
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
