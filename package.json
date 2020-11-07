@@ -17,10 +17,10 @@
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.10.9",
+    "mongoose": "^5.10.13",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "~1.9.1",
-    "nodemailer": "^6.4.14",
+    "nodemailer": "^6.4.15",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
@@ -28,7 +28,7 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "jasmine": "^3.6.2",
-    "nodemon": "^2.0.4"
+    "jasmine": "^3.6.3",
+    "nodemon": "^2.0.6"
   }
 }
