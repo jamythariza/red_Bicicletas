@@ -144,11 +144,11 @@ app.use('/usuarios', usuariosRouter);
 app.use('/token', tokenRouter);
 app.use('/', loggedIn, indexRouter);
 
-app.use('/privacy_policy.html', function(req, res){
+app.use('/privacy_policy', function(req, res){
   res.sendFile('public/privacy_policy.html');
 });
 
-app.use('/googleb6a33ca5d0d76f4e.html', function(req, res){
+app.use('/googleb6a33ca5d0d76f4e', function(req, res){
   res.sendFile('public/googleb6a33ca5d0d76f4e.html');
 });
 
