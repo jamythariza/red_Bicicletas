@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('./config/passport');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 var token = require('./models/token')
 
 var indexRouter = require('./routes/index');
@@ -15,12 +16,25 @@ var bicicletasAPIRouter = require('./routes/api/bicicletas');
 var usuariosAPIRouter = require('./routes/api/usuario');
 var authRouter=require("./routes/Api/auth");
 
-const store = new session.MemoryStore;
 const usuariosRouter = require('./routes/usuarios');
 const tokenRouter = require('./routes/token');
 const jwt = require('jsonwebtoken');
 
-var app = express();
+let store;
+if(process.env.NODE_ENV === 'development'){
+  store = new session.MemoryStore;
+}else{
+  store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+  });
+  store.on('error', function(error){
+    assert.ifError(error);
+    assert.ok(false);
+  });
+}
+
+let app = express();
 app.set('secretKey', 'jwt_pwd_!123');
 app.use(session({
   cookie: {
@@ -34,12 +48,16 @@ app.use(session({
 
 var mongoose = require('mongoose');
 const usuario = require('./models/usuario');
+const { assert } = require('console');
 //ambiente dev
 //var mongoDB = 'mongodb://localhost:27017/red_bicicletas';
 // ambiente production
 //var mongoDB = 'mongodb+srv://admin:PhB6gpW9WSbGhRqy@red-bicicletas.gxdnp.mongodb.net/red-bicicletas?retryWrites=true&w=majority';
-var mongoDB = process.env.NODE_URI;
+
+var mongoDB = 'mongodb+srv://admin:PhB6gpW9WSbGhRqy@red-bicicletas.gxdnp.mongodb.net/red-bicicletas?retryWrites=true&w=majority';
 mongoose.connect(mongoDB,{ useNewUrlParser:true, useUnifiedTopology: true});
+
+
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'MonogoDB connection error: ')) 
@@ -152,7 +170,14 @@ app.use('/googleb6a33ca5d0d76f4e', function(req, res){
   res.sendFile('public/googleb6a33ca5d0d76f4e.html');
 });
 
+app.get('/auth/google',
+passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
+app.get('/auth/google/callback', 
+passport.authenticate('google', { failureRedirect: '/login' }),
+function(req, res) {
+  res.redirect('/');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
